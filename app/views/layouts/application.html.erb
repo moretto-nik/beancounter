@@ -23,6 +23,13 @@
         <!-- Everything you want hidden at 940px or less, place within here -->
         <div class="nav-collapse">
           <ul class="nav">
+            <% if current_user  %>
+              <li> Signed in as <%= current_user.name %> </li>
+              <%= link_to "Sign out", sign_out_path %>
+            <% else %>
+              <%= link_to "Sign in with twitter", "/auth/twitter" %>
+              <%= link_to "Sign in with facebook", "/auth/facebook" %>
+            <% end %>
           </ul>
         </div>
  
