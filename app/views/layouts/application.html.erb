@@ -25,7 +25,7 @@
           <ul class="nav">
             <% if current_user  %>
               <li> Signed in as <%= current_user.name %> </li>
-              <li><%= link_to "Sign out", sign_out_path %></li>
+              <li><%= link_to "Sign out", sign_out_path, id: "sign_out" %></li>
             <% else %>
               <li><%= link_to "Sign in with twitter", "/auth/twitter" %></li>
               <li><%= link_to "Sign in with facebook", "/auth/facebook" %></li>

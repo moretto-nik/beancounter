@@ -34,4 +34,9 @@ Beancounter::Application.configure do
 
   # Expands the lines which load the assets
   config.assets.debug = true
+
+  FACEBOOK_APP_ID = '313412168683100'
+  FACEBOOK_SECRET = 'cc040c3b120491bcec98498dd81fc2a5'
+  TWITTER_KEY = nil
+  TWITTER_SECRET = nil
 end

@@ -1,5 +1,5 @@
 Beancounter::Application.routes.draw do
-
+  resources :users, :only => [:show]
   match 'auth/:provider/callback', to: 'sessions#create'
   match 'auth/failure', to: redirect('/')
   match 'sign_in', to: 'sessions#new', as: 'sign_in'
