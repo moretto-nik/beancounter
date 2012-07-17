@@ -34,4 +34,9 @@ Beancounter::Application.configure do
 
   # Print deprecation notices to the stderr
   config.active_support.deprecation = :stderr
+
+  FACEBOOK_APP_ID = '286412124800243'
+  FACEBOOK_SECRET = '29e6436ac76d90a9a8d467c029d208c7'
+  TWITTER_KEY = nil
+  TWITTER_SECRET = nil
 end

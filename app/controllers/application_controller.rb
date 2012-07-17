@@ -21,6 +21,21 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def active_api_application
+    begin
+      a = Application.find(1)
+    rescue ActiveRecord::RecordNotFound
+      a = Application.create!
+    end
+    a.is_active?
+  end
+
+  def require_active_api
+    unless active_api_application
+      render "public/404", :formats => [:html], :status => 404
+    end
+  end
+
 private
   
   def current_user

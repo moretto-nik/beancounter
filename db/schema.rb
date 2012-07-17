@@ -11,7 +11,13 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120716174008) do
+ActiveRecord::Schema.define(:version => 20120717152524) do
+
+  create_table "applications", :force => true do |t|
+    t.string   "api_key"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "provider"
@@ -19,6 +25,8 @@ ActiveRecord::Schema.define(:version => 20120716174008) do
     t.string   "name"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+    t.string   "username"
+    t.string   "password"
   end
 
 end

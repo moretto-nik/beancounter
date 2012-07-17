@@ -1,0 +1,34 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://api.beancounter.io/rest/user/register?apikey=6fce3865-8f51-404b-9905-c6a8600f7b66
+    body:
+      encoding: US-ASCII
+      string: username=user0&password=user0pwd&name=foo&surname=foo
+    headers:
+      accept:
+      - ! '*/*'
+      user-agent:
+      - Ruby
+      content-type:
+      - application/x-www-form-urlencoded
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      date:
+      - Tue, 17 Jul 2012 13:49:51 GMT
+      server:
+      - Apache-Coyote/1.1
+      content-type:
+      - application/json
+      transfer-encoding:
+      - chunked
+    body:
+      encoding: US-ASCII
+      string: ! '{"status":"OK","message":"user successfully registered","object":"99d5201c-e962-4019-9fcc-2633641f86b3"}'
+    http_version: '1.1'
+  recorded_at: Tue, 17 Jul 2012 13:49:51 GMT
+recorded_with: VCR 2.2.2
