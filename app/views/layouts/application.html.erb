@@ -25,10 +25,10 @@
           <ul class="nav">
             <% if current_user  %>
               <li> Signed in as <%= current_user.name %> </li>
-              <%= link_to "Sign out", sign_out_path %>
+              <li><%= link_to "Sign out", sign_out_path %></li>
             <% else %>
-              <%= link_to "Sign in with twitter", "/auth/twitter" %>
-              <%= link_to "Sign in with facebook", "/auth/facebook" %>
+              <li><%= link_to "Sign in with twitter", "/auth/twitter" %></li>
+              <li><%= link_to "Sign in with facebook", "/auth/facebook" %></li>
             <% end %>
           </ul>
         </div>
