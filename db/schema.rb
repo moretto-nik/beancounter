@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120717123925) do
+ActiveRecord::Schema.define(:version => 20120718153209) do
 
   create_table "application_settings", :force => true do |t|
     t.string   "api_name"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(:version => 20120717123925) do
     t.integer  "click"
     t.datetime "created_at",           :null => false
     t.datetime "updated_at",           :null => false
+    t.string   "oauth_token"
   end
 
 end

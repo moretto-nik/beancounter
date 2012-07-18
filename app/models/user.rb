@@ -9,7 +9,9 @@ class User < ActiveRecord::Base
   	create! do |user|
       user.provider = auth["provider"]
       user.uid = auth["uid"]
-      user.name = auth["info"]["nickname"]
+      #da sistemare username univoco e senza spazi
+      user.name = auth["info"]["name"].split[0]
+      user.oauth_token = auth.credentials.token
   	end
   end
 
@@ -46,10 +48,15 @@ class User < ActiveRecord::Base
     end
   end
 
-  def share_page_on_provider(api_key, provider)
-    params = {'username' => username,'password' => password, 'name' => self.name, 'surname' => self.name}
-    response = JSON.parse(Net::HTTP.post_form(URI.parse("http://api.beancounter.io/rest/activities/add/#{self.username_beancounter}?apikey=#{api_key}"),params).body)
+  def facebook
+    @facebook ||= Koala::Facebook::API.new(oauth_token)
+  end
 
-    
+  def populate_facebook_attribute
+    info = self.facebook.get_object("me")
+    self.first_name = info['first_name']
+    self.last_name = info['last_name']
+    self.sex = info['gender']
+    self.email = info['email']
   end
 end
