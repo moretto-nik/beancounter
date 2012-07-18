@@ -1,7 +1,8 @@
 class CreateApplications < ActiveRecord::Migration
   def change
-    create_table :applications do |t|
-      t.string :api_key
+    create_table :application_settings do |t|
+      t.string :api_name
+      t.string :api_value
 
       t.timestamps
     end

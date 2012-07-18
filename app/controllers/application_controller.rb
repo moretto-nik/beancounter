@@ -12,7 +12,7 @@ class ApplicationController < ActionController::Base
   end
 
   def is_user?
-    current_user.id == params[:user_id].to_i
+    current_user.id == session[:user_id].to_i
   end
 
   def require_user
@@ -21,17 +21,17 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def active_api_application
-    begin
-      a = Application.find(1)
-    rescue ActiveRecord::RecordNotFound
-      a = Application.create!
+  def active_beancounter?
+    if ApplicationSettings.find_by_api_name("beancounter")
+      true
+    else
+      beancounterAPI = ApplicationSettings.new(:api_name => "beancounter")
+      beancounterAPI.generate_beancounter_api_key
     end
-    a.is_active?
   end
 
-  def require_active_api
-    unless active_api_application
+  def require_active_beancounter_api
+    unless active_beancounter?
       render "public/404", :formats => [:html], :status => 404
     end
   end

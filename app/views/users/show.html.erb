@@ -1,4 +1,84 @@
-Ciao <%= current_user.name %>
+ <script type="text/javascript">
+  var options = {
+    textColour: '#08C',
+    textHeight: 40,
+    depth: 0.99,
+    stretchX: 6,
+    minSpeed: 0.002,
+    maxSpeed: 0.005,
+    initial: [0.6,-0.3],
+    weight: true
+  };
+  window.onload = function() {
+    try {
+      TagCanvas.Start('myCanvas', '', options);
+    } catch(e) {
+      // something went wrong, hide the canvas container
+      document.getElementById('myCanvasContainer').style.display = 'none';
+    }
+  };
+ </script>
 
-<%=link_to "add twitter activity", "http://api.beancounter.io/rest/user/oauth/token/twitter/user1?redirect=http://localhost:3000" %>
+<div class="span15 clearfix" style="margin-bottom:30px;"><h1>Ciao <%= current_user.name %></h1></div>
 
+<div class="span15 clearfix" style="margin-bottom:10px;"><h3>Questo è il tuo tag interessi:</h3></div>
+
+<div class="span15 clearfix" style="margin-bottom:30px" id="myCanvasContainer">
+ <canvas width="1000" height="300" id="myCanvas">
+  <p>Anything in here will be replaced on browsers that support the canvas element</p>
+  <ul>
+	<li><a href="#" data-weight="14" style="font-size: 2.83ex">1000</a></li>
+	<li><a href="#" data-weight="18" style="font-size: 3.61ex">background</a></li>
+	<li><a href="#" data-weight="40" style="font-size: 9.64ex">canvas</a></li>
+	<li><a href="#" data-weight="22" style="font-size: 4.47ex">chart</a></li>
+	<li><a href="#" data-weight="18" style="font-size: 3.46ex">charts</a></li>
+	<li><a href="#" data-weight="60" style="font-size: 12.32ex">cloud</a></li>
+	<li><a href="#" data-weight="18" style="font-size: 3.74ex">clouds</a></li>
+	<li><a href="#" data-weight="17" style="font-size: 3.16ex">example</a></li>
+	<li><a href="#" data-weight="18" style="font-size: 3.74ex">goat</a></li>
+	<li><a href="#" data-weight="17" style="font-size: 3.16ex">goat1000</a></li>
+	<li><a href="#" data-weight="30" style="font-size: 8.36ex">graph</a></li>
+	<li><a href="#" data-weight="21" style="font-size: 4.36ex">graphs</a></li>
+	<li><a href="#" data-weight="17" style="font-size: 3.32ex">html</a></li>
+	<li><a href="#" data-weight="50" style="font-size: 10.68ex">html5</a></li>
+	<li><a href="#" data-weight="23" style="font-size: 4.69ex">image</a></li>
+	<li><a href="#" data-weight="24" style="font-size: 4.8ex">javascript</a></li>
+	<li><a href="#" data-weight="26" style="font-size: 5.47ex">jpeg</a></li>
+	<li><a href="#" data-weight="13" style="font-size: 2.65ex">jpegsaver</a></li>
+	<li><a href="#" data-weight="32" style="font-size: 8.77ex">jquery</a></li>
+	<li><a href="#" data-weight="13" style="font-size: 2.65ex">lib</a></li>
+	<li><a href="#" data-weight="27" style="font-size: 5.92ex">library</a></li>
+	<li><a href="#" data-weight="17" style="font-size: 3.32ex">link</a></li>
+	<li><a href="#" data-weight="65" style="font-size: 13.23ex">php</a></li>
+	<li><a href="#" data-weight="14" style="font-size: 2.83ex">plugin</a></li>
+	<li><a href="#" data-weight="22" style="font-size: 4.58ex">saver</a></li>
+	<li><a href="#" data-weight="17" style="font-size: 3.32ex">screensaver</a></li>
+	<li><a href="#" data-weight="13" style="font-size: 2.65ex">script</a></li>
+	<li><a href="#" data-weight="65" style="font-size: 13ex">svg</a></li>
+	<li><a href="#" data-weight="21" style="font-size: 4.47ex">svggraph</a></li>
+	<li><a href="#" data-weight="62" style="font-size: 12.44ex">tag</a></li>
+	<li><a href="#" data-weight="13" style="font-size: 2.65ex">tagcanvas</a></li>
+	<li><a href="#" data-weight="17" style="font-size: 3.46ex">tagcloud</a></li>
+	<li><a href="#" data-weight="13" style="font-size: 2.65ex">text</a></li>
+	<li><a href="#" data-weight="17" style="font-size: 10.16ex">word</a></li>
+  </ul>
+ </canvas>
+</div>
+
+<div class="span5 clearfix">
+<% unless current_user.check_provider(@application_settings.api_value,"twitter")%>
+<%=link_to "add twitter activity", "http://api.beancounter.io/rest/user/oauth/token/twitter/#{current_user.username_beancounter}?redirect=http://localhost:3000/users/#{current_user.name}" %>
+<%else%>
+  Share your page on Twitter
+  <textarea></textarea>
+<%end%>
+</div>
+
+<div class="span5 clearfix">
+<% unless current_user.check_provider(@application_settings.api_value,"facebook")%>
+<%=link_to "add facebook activity", "http://api.beancounter.io/rest/user/oauth/token/facebook/#{current_user.username_beancounter}?redirect=http://localhost:3000/users/#{current_user.name}" %>
+<%else%>
+  Share your page on Facebook<br />
+  <textarea></textarea>
+<%end%>
+</div>
