@@ -1,7 +1,11 @@
+# encoding: utf-8
 class SessionsController < ApplicationController
   
   #sign_in_path
   def new
+    if current_user!=nil
+      redirect_to user_path(current_user.name), alert: "Sei già loggato!"
+    end
   end
 
   #/auth/:provider/callback
