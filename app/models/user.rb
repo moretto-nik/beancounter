@@ -2,20 +2,7 @@
 class User < ActiveRecord::Base
   attr_accessible :username_beancounter, :password_beancounter
 
-  def self.from_omniauth(auth)
-  	where(auth.slice("provider", "uid")).first || create_from_omniauth(auth)
-  end
-
-  def self.create_from_omniauth(auth)
-  	create! do |user|
-      user.provider = auth["provider"]
-      user.uid = auth["uid"]
-      #da sistemare username univoco e senza spazi
-      user.name = auth["info"]["name"].split[0]
-      user.oauth_token = auth.credentials.token
-  	end
-  end
-
+  #gestione api beancounter
   def register_api(api_key)
     username = "#{self.name}"
     password = "user#{self.id}pwd"
@@ -30,6 +17,7 @@ class User < ActiveRecord::Base
   end
 
   def check_provider(api_key, provider)
+    debugger
     uri = URI.parse("http://api.beancounter.io/rest/user/#{self.username_beancounter}/#{provider}/check?apikey=#{api_key}")
     response = JSON.parse(Net::HTTP.get_response(uri).body)
     if response['status'] == "OK"
@@ -48,7 +36,26 @@ class User < ActiveRecord::Base
       false
     end
   end
+  #end api beancounter
 
+  #generazione utenti tramite facebook e twitter
+  def self.from_omniauth(auth)
+    where(auth.slice("provider", "uid")).first || create_from_omniauth(auth)
+  end
+
+  def self.create_from_omniauth(auth)
+    create! do |user|
+      user.provider = auth["provider"]
+      user.uid = auth["uid"]
+      user.name = auth['info']['name'].gsub(/ /,"_") if auth["provider"] == "facebook"
+      user.name = auth['info']['nickname'] if auth["provider"] == "twitter"
+      user.oauth_token = auth.credentials.token
+      user.oauth_secret = auth["credentials"]["secret"] if auth["provider"] == "twitter"
+    end
+  end
+  #end generazione utenti fb e tw
+  
+  #gestione utenti facebook
   def facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token)
     block_given? ? yield(@facebook) : @facebook
@@ -63,6 +70,7 @@ class User < ActiveRecord::Base
     self.last_name = info['last_name']
     self.sex = info['gender']
     self.email = info['email']
+    self.save
   end
 
   def post_on_facebook_wall
@@ -73,4 +81,30 @@ class User < ActiveRecord::Base
       false
     end
   end
+  #end gestione utenti facebook
+
+  #gestione utenti twitter
+  def twitter
+    if provider == "twitter"
+      @twitter ||= Twitter::Client.new(consumer_key:TWITTER_KEY, consumer_secret:TWITTER_SECRET, oauth_token: oauth_token, oauth_token_secret: oauth_secret)
+    end
+  end
+
+  def populate_twitter_attribute
+    debugger
+    info = self.twitter.current_user
+    name = info["name"].split
+    self.first_name = name[0]
+    self.last_name = name[1]
+    self.save
+  end
+
+  def tweet
+    if self.twitter.update("Questa è la mia pagina beancounter")
+      true
+    else
+      false
+    end
+  end
+  #end gestione utenti twitter
 end

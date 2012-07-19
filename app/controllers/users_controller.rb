@@ -7,14 +7,15 @@ class UsersController < ApplicationController
   def show
   	@application_settings = ApplicationSettings.find_by_api_name("beancounter")
     @user = User.find(session[:user_id])
-    if @user.provider == "facebook"
-      @user.populate_facebook_attribute
-    end
+    @user.populate_facebook_attribute if @user.provider == "facebook"
+    @user.populate_twitter_attribute if @user.provider == "twitter"
     
     if @user.username_beancounter == nil
       if @user.register_api(@application_settings.api_value) == true
         redirect_to user_path(@user.name), notice: "L'utente è stato iscritto con successo alle API."
       else
+        #da vedere...loop infinito! Ma solo se l'account viene eliminato e prova a riloggarsi
+        @user.update_attributes(:username_beancounter => "")
         redirect_to user_path(@user.name), alert: "L'utente non è stato iscritto con successo alle API."
       end
     end
@@ -25,6 +26,16 @@ class UsersController < ApplicationController
 
     if @user.post_on_facebook_wall
       redirect_to user_path(@user.name), notice: "La tua pagina è stata pubblicata su facebook"
+    else
+      redirect_to user_path(@user.name), alert: "La tua pagina non è stata pubblicata"
+    end
+  end
+
+  def tweet_publish
+    @user = User.find(session[:user_id])
+
+    if @user.tweet
+      redirect_to user_path(@user.name), notice: "La tua pagina è stata pubblicata su twitter"
     else
       redirect_to user_path(@user.name), alert: "La tua pagina non è stata pubblicata"
     end
