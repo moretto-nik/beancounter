@@ -34,6 +34,7 @@ group :test do
 end
 
 gem 'omniauth-twitter'
-gem 'omniauth-facebook'
+gem 'twitter'
 
+gem 'omniauth-facebook'
 gem 'koala'
