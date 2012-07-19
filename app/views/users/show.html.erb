@@ -19,7 +19,7 @@
   };
  </script>
 
-<div class="span15 clearfix" style="margin-bottom:30px;"><h1>Ciao <%= current_user.name %></h1></div>
+<div class="span15 clearfix" style="margin-bottom:30px;"><h1>Ciao <%= current_user.first_name+" "+current_user.last_name %></h1></div>
 
 <div class="span15 clearfix" style="margin-bottom:10px;"><h3>Questo è il tuo tag interessi:</h3></div>
 
@@ -71,6 +71,7 @@
 <%else%>
   Share your page on Twitter
   <textarea></textarea>
+  <%= link_to 'Pubblica su twitter', user_twitter_publish_path, :class => 'btn btn-primary'%>
 <%end%>
 </div>
 
