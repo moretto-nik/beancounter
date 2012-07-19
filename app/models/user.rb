@@ -1,3 +1,4 @@
+# encoding: utf-8
 class User < ActiveRecord::Base
   attr_accessible :username_beancounter, :password_beancounter
 
@@ -50,6 +51,10 @@ class User < ActiveRecord::Base
 
   def facebook
     @facebook ||= Koala::Facebook::API.new(oauth_token)
+    block_given? ? yield(@facebook) : @facebook
+  rescue Koala::Facebook::APIError => e
+    logger.info e.to_s
+    nil
   end
 
   def populate_facebook_attribute
@@ -58,5 +63,14 @@ class User < ActiveRecord::Base
     self.last_name = info['last_name']
     self.sex = info['gender']
     self.email = info['email']
+  end
+
+  def post_on_facebook_wall
+    if self.facebook.get_connection("me","permissions")[0]["publish_stream"]
+      self.facebook.put_wall_post("Questa è la mia pagina beancounter")
+      true
+    else
+      false
+    end
   end
 end
