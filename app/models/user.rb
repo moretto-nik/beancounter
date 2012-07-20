@@ -51,6 +51,8 @@ class User < ActiveRecord::Base
       user.name = auth['info']['nickname'] if auth["provider"] == "twitter"
       user.oauth_token = auth.credentials.token
       user.oauth_secret = auth["credentials"]["secret"] if auth["provider"] == "twitter"
+      user.populate_twitter_attribute if auth["provider"] == "twitter"
+      user.populate_facebook_attribute if auth["provider"] == "facebook"
     end
   end
   #end generazione utenti fb e tw
@@ -70,7 +72,6 @@ class User < ActiveRecord::Base
     self.last_name = info['last_name']
     self.sex = info['gender']
     self.email = info['email']
-    self.save
   end
 
   def post_on_facebook_wall
@@ -96,7 +97,6 @@ class User < ActiveRecord::Base
     name = info["name"].split
     self.first_name = name[0]
     self.last_name = name[1]
-    self.save
   end
 
   def tweet

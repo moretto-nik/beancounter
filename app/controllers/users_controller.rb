@@ -7,8 +7,6 @@ class UsersController < ApplicationController
   def show
   	@application_settings = ApplicationSettings.find_by_api_name("beancounter")
     @user = User.find(session[:user_id])
-    @user.populate_facebook_attribute if @user.provider == "facebook"
-    @user.populate_twitter_attribute if @user.provider == "twitter"
     
     if @user.username_beancounter == nil
       if @user.register_api(@application_settings.api_value) == true
