@@ -12,11 +12,9 @@ class UsersController < ApplicationController
     
     if @user.username_beancounter == nil
       if @user.register_api(@application_settings.api_value) == true
-        redirect_to user_path(@user.name), notice: "L'utente è stato iscritto con successo alle API."
+        flash.now[:notice] = "L'utente è stato iscritto con successo alle API."
       else
-        #da vedere...loop infinito! Ma solo se l'account viene eliminato e prova a riloggarsi
-        @user.update_attributes(:username_beancounter => "")
-        redirect_to user_path(@user.name), alert: "L'utente non è stato iscritto con successo alle API."
+        flash.now[:notice] = "L'utente non è stato iscritto con successo alle API."
       end
     end
   end

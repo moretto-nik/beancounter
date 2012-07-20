@@ -12,7 +12,8 @@ class ApplicationSettings < ActiveRecord::Base
       if self.save 
         return true
       end
+    else
+      false
     end
-    false
   end
 end
