@@ -2,6 +2,7 @@
 <html>
 <head>
   <title>Beancounter</title>
+  <link rel="stylesheet" href="https://s-passets-ec.pinimg.com/css/pinboard_f9df583e.css" type="text/css" media="all"/>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag 'application', 'highcharts', 'tagcanvas.min' %>
   <%= csrf_meta_tags %>
@@ -40,14 +41,14 @@
       </div>
     </div>
   </div>
-	<div id="container-fluid">
-	  <div class="row clearfix row-fluid">
+  <div id="container-fluid">
+    <div class="row clearfix row-fluid">
       <div class="span15 clearfix" style="margin-left:40px">
         <%= render 'layouts/messages' %>
         <div class="span15 clearfix"><%= yield %></div>
       </div>
-	  </div>
-	</div>
+    </div>
+  </div>
 
 </body>
 </html>
