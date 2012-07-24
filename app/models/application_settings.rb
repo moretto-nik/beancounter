@@ -5,15 +5,19 @@ class ApplicationSettings < ActiveRecord::Base
   require "net/http"
 
   def generate_beancounter_api_key
-    params = {'name' => 'beancounter_demo','description' => 'beancounter application','email' => 'test@test.io','oauthCallback' => 'http://localhost:3000'}
-    response = JSON.parse(Net::HTTP.post_form(URI.parse('http://api.beancounter.io/rest/application/register'), params).body)
-    if response['status'] == "OK"
-      self.api_value = response['object']
-      if self.save 
-        return true
+    RestClient.post('http://api.beancounter.io/rest/application/register',{
+      :name => 'beancounter_demo',
+      :description => 'beancounter demo application',
+      :email => 'test@test.io',
+      :oauthCallback => 'http://localhost:3000' 
+    }) do | req, res, result|
+      if result.code == 200
+        api_key = JSON.parse(req.body)["object"]
+        self.api_value = response['object']
+        self.save
+      else
+        false
       end
-    else
-      false
     end
   end
 end

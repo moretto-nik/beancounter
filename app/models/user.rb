@@ -4,36 +4,28 @@ class User < ActiveRecord::Base
 
   #gestione api beancounter
   def register_api(api_key)
-    username = "#{self.name}"
     password = "user#{self.id}pwd"
-    params = {'username' => username,'password' => password, 'name' => self.name, 'surname' => self.name}
-    response = JSON.parse(Net::HTTP.post_form(URI.parse('http://api.beancounter.io/rest/user/register?apikey='+api_key),params).body)
-    if response['status'] == "OK"
-      self.update_attributes(:username_beancounter => username, :password_beancounter => password)
-      true
-    else
-      false
+    path = 'http://api.beancounter.io/rest/user/register?apikey=' + api_key
+    RestClient.post(path, {
+      :api_key => api_key,
+      :username => self.name,
+      :password => password,
+      :name => self.first_name,
+      :surname => self.last_name
+    }) do | req, res, result|
+      self.update_attributes(:username_beancounter => username, :password_beancounter => password) if result.code==200
     end
   end
 
   def check_provider(api_key, provider)
-    debugger
-    uri = URI.parse("http://api.beancounter.io/rest/user/#{self.username_beancounter}/#{provider}/check?apikey=#{api_key}")
-    response = JSON.parse(Net::HTTP.get_response(uri).body)
-    if response['status'] == "OK"
-      true
-    else
-      false
+    RestClient.get "http://api.beancounter.io/rest/user/#{self.username_beancounter}/#{provider}/check?apikey=#{api_key}" do | req, res, result|
+      result.code == 200 && JSON.parse(req.body)["status"] == "OK"
     end
   end
 
   def tag_cloud(api_key)
-    uri = URI.parse("http://api.beancounter.io/rest/user/#{self.username_beancounter}/profile?apikey=#{api_key}")
-    response = JSON.parse(Net::HTTP.get_response(uri).body)
-    if response['status'] == "OK"
-      true
-    else
-      false
+    RestClient.get "http://api.beancounter.io/rest/user/#{self.username_beancounter}/profile?apikey=#{api_key}" do | req, res, result|
+      result.code == 200 && JSON.parse(req.body)["status"] == "OK"
     end
   end
   #end api beancounter
