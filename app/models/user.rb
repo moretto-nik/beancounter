@@ -13,19 +13,19 @@ class User < ActiveRecord::Base
       :name => self.first_name,
       :surname => self.last_name
     }) do | req, res, result|
-      self.update_attributes(:username_beancounter => username, :password_beancounter => password) if result.code==200
+      self.update_attributes(:username_beancounter => username, :password_beancounter => password) if result.code=="200"
     end
   end
 
   def check_provider(api_key, provider)
     RestClient.get "http://api.beancounter.io/rest/user/#{self.username_beancounter}/#{provider}/check?apikey=#{api_key}" do | req, res, result|
-      result.code == 200 && JSON.parse(req.body)["status"] == "OK"
+      result.code == "200" && JSON.parse(req.body)["status"] == "OK"
     end
   end
 
   def tag_cloud(api_key)
     RestClient.get "http://api.beancounter.io/rest/user/#{self.username_beancounter}/profile?apikey=#{api_key}" do | req, res, result|
-      result.code == 200 && JSON.parse(req.body)["status"] == "OK"
+      result.code == "200" && JSON.parse(req.body)["status"] == "OK"
     end
   end
   #end api beancounter

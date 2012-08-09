@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+ruby "1.9.3"
 gem 'rails', '3.2.6'
 
 # Bundle edge Rails instead:
@@ -39,3 +40,8 @@ gem 'twitter'
 
 gem 'omniauth-facebook'
 gem 'koala'
+
+group :production do
+  gem 'heroku'
+  gem 'pg'
+end

@@ -16,6 +16,7 @@ Beancounter::Application.configure do
 
   # Don't fallback to assets pipeline if a precompiled asset is missed
   config.assets.compile = false
+  config.assets.precompile += %w( *.css *.js )
 
   # Generate digests for assets URLs
   config.assets.digest = true
@@ -64,4 +65,9 @@ Beancounter::Application.configure do
   # Log the query plan for queries taking more than this (works
   # with SQLite, MySQL, and PostgreSQL)
   # config.active_record.auto_explain_threshold_in_seconds = 0.5
+
+  FACEBOOK_APP_ID = '286412124800243'
+  FACEBOOK_SECRET = '29e6436ac76d90a9a8d467c029d208c7'
+  TWITTER_KEY = 'MMcNsJNeW7ZTWAw48GuA'
+  TWITTER_SECRET = 'DnmxWuxOB9owK47hfCWKzNi0hm1R61J9LQfOTJTd8'
 end
