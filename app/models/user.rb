@@ -13,7 +13,7 @@ class User < ActiveRecord::Base
       :name => self.first_name,
       :surname => self.last_name
     }) do | req, res, result|
-      self.update_attributes(:username_beancounter => username, :password_beancounter => password) if result.code=="200"
+      self.update_attributes(:username_beancounter => self.name, :password_beancounter => password) if result.code=="200"
     end
   end
 
