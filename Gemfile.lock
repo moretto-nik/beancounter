@@ -66,6 +66,7 @@ GEM
     debugger-ruby_core_source (1.1.3)
     diff-lcs (1.1.3)
     erubis (2.7.0)
+    excon (0.15.5)
     execjs (1.4.0)
       multi_json (~> 1.0)
     factory_girl (3.3.0)
@@ -83,6 +84,14 @@ GEM
     guard-rspec (1.1.0)
       guard (>= 1.1)
     hashie (1.2.0)
+    heroku (2.30.2)
+      heroku-api (~> 0.3.2)
+      launchy (>= 0.3.2)
+      netrc (~> 0.7.5)
+      rest-client (~> 1.6.1)
+      rubyzip
+    heroku-api (0.3.2)
+      excon (~> 0.15.5)
     hike (1.2.1)
     httpauth (0.1)
     i18n (0.6.0)
@@ -96,6 +105,8 @@ GEM
     koala (1.5.0)
       faraday (~> 0.7)
       multi_json (~> 1.3)
+    launchy (2.1.0)
+      addressable (~> 2.2.6)
     less (2.2.1)
       commonjs (~> 0.2.6)
     less-rails (2.2.3)
@@ -138,6 +149,7 @@ GEM
     omniauth-twitter (0.0.12)
       multi_json (~> 1.3)
       omniauth-oauth (~> 1.0)
+    pg (0.14.0)
     polyglot (0.3.3)
     rack (1.4.1)
     rack-cache (1.2)
@@ -233,10 +245,12 @@ DEPENDENCIES
   factory_girl_rails
   fakeweb
   guard-rspec
+  heroku
   jquery-rails
   koala
   omniauth-facebook
   omniauth-twitter
+  pg
   rails (= 3.2.6)
   rest-client!
   rspec-rails
