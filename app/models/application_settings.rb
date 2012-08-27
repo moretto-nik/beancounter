@@ -11,9 +11,9 @@ class ApplicationSettings < ActiveRecord::Base
       :email => 'test@test.io',
       :oauthCallback => 'http://localhost:3000' 
     }) do | req, res, result|
-      if result.code == 200
+      if result.code == "200"
         api_key = JSON.parse(req.body)["object"]
-        self.api_value = response['object']
+        self.api_value = api_key
         self.save
       else
         false
