@@ -12,7 +12,7 @@ class UsersController < ApplicationController
       if @user.register_api(@application_settings.api_value) == true
         flash.now[:notice] = "L'utente è stato iscritto con successo alle API."
       else
-        flash.now[:notice] = "L'utente non è stato iscritto con successo alle API."
+        flash.now[:alert] = "L'utente non è stato iscritto con successo alle API."
       end
     end
   end

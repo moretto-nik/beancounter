@@ -34,6 +34,10 @@ group :test do
   gem 'fakeweb'
 end
 
+group :development do
+  gem 'sqlite3'
+end
+
 gem 'omniauth-twitter'
 gem 'twitter'
 
