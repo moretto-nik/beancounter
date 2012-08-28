@@ -4,7 +4,7 @@
   <title>Beancounter</title>
   <link rel="stylesheet" href="https://s-passets-ec.pinimg.com/css/pinboard_f9df583e.css" type="text/css" media="all"/>
   <%= stylesheet_link_tag    "application", :media => "all" %>
-  <%= javascript_include_tag 'application', 'highcharts', 'tagcanvas.min' %>
+  <%= javascript_include_tag 'application', 'highcharts', 'tagcanvas.min', 'bootstrap' %>
   <%= csrf_meta_tags %>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
@@ -27,14 +27,21 @@
  
         <!-- Everything you want hidden at 940px or less, place within here -->
         <div class="nav-collapse">
-          <ul class="nav">
+        </div>
+
+        <div class="nav-collapse">
+            <div class="progress progress-success" style="margin-right:160px;width:200px;float:right;">
+            <div class="bar" style="width: 100%;">API Online 1.2</div>
+            </div>
+            <ul class="nav">
             <% if current_user  %>
-              <li> Signed in as <%= current_user.name %> </li>
+              <li style="margin-top:10px;"> Signed in as <%= current_user.name %> </li>
               <li><%= link_to "Sign out", sign_out_path, id: "sign_out" %></li>
             <% else %>
               <li><%= link_to "Sign in with twitter", "/auth/twitter" %></li>
               <li><%= link_to "Sign in with facebook", "/auth/facebook" %></li>
             <% end %>
+          </ul>
           </ul>
         </div>
  

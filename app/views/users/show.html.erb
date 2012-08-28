@@ -1,4 +1,66 @@
- <script type="text/javascript">
+		<script type="text/javascript">
+$(function () {
+    var chart;
+    $(document).ready(function() {
+        chart = new Highcharts.Chart({
+            chart: {
+                renderTo: 'container2',
+                type: 'line',
+                marginRight: 130,
+                marginBottom: 25,
+                plotBackgroundColor: "whiteSmoke"
+            },
+            title: {
+                text: 'Interests Over Time',
+                x: -20 //center
+            },
+            xAxis: {
+                categories: ['2007', '2008', '2009', '2010', '2011', '2012']
+            },
+            yAxis: {
+                title: {
+                    text: '%'
+                },
+                plotLines: [{
+                    value: 0,
+                    width: 1,
+                    color: '#808080'
+                }]
+            },
+            tooltip: {
+                formatter: function() {
+                        return '<b>'+ this.series.name +'</b><br/>'+
+                        this.x +': '+ this.y +'°C';
+                }
+            },
+            legend: {
+                layout: 'vertical',
+                align: 'right',
+                verticalAlign: 'top',
+                x: -10,
+                y: 100,
+                borderWidth: 0,
+                backgroundColor : "whiteSmoke"
+            },
+            series: [{
+                name: 'Comedy',
+                data: [18.2, 40, 25.2, 33.5, 50.1, 55.11]
+            }, {
+                name: 'Movies',
+                data: [ 12.33,22.0, 24.8, 24.1, 20.1, 21.63]
+            }, {
+                name: 'Music',
+                data: [ 13.5, 17.0, 18.6, 9.0, 3.9, 11.94]
+            }, {
+                name: 'Reality TV',
+                data: [3.9, 14.2, 10.3, 6.6,6.6, 7.15]
+            }]
+        });
+    });
+   	$("#highcharts-0").find("rect:nth-child(2)").first().attr("fill","whiteSmoke");
+	  $("#highcharts-2").find("rect:nth-child(2)").first().attr("fill","whiteSmoke"); 
+});
+
   var options = {
     textColour: '#08C',
     textHeight: 40,
@@ -17,14 +79,58 @@
       document.getElementById('myCanvasContainer').style.display = 'none';
     }
   };
+
+  function showModal(id){
+  	$('#'+id).modal('show');
+  }
+
+  function hideModal(id){
+  	$('#'+id).modal('hide');
+  }
  </script>
 
-<div class="span15 clearfix" style="margin-bottom:30px;"><h1>Ciao <%= current_user.first_name+" "+current_user.last_name %></h1></div>
+<!-- Modal -->
+<div class="modal hide fade" id="twitter_modal" style="height:280px;">
+  <div class="modal-header">
+    <h3>Share your Beancounter page on Twitter</h3>
+  </div>
+  <div class="modal-body">
+    <textarea style="width:510px; height:100px;"></textarea>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" onclick="hideModal('twitter_modal')">Close</a>
+    <%= link_to 'Pubblica su Twitter', user_twitter_publish_path, :class => 'btn btn-primary'%>
+  </div>
+</div>
+
+<div class="modal hide fade" id="facebook_modal" style="height:280px;">
+  <div class="modal-header">
+    <h3>Share your Beancounter page on Facebook</h3>
+  </div>
+  <div class="modal-body">
+    <textarea style="width:510px; height:100px;"></textarea>
+  </div>
+  <div class="modal-footer">
+    <a href="#" class="btn" onclick="hideModal('facebook_modal')">Close</a>
+    <%= link_to 'Pubblica su Facebook', user_facebook_publish_path, :class => 'btn btn-primary'%>
+  </div>
+</div>
+<!-- end modal -->
+
+<div class="span15 clearfix" style="margin-bottom:30px;"><h1>Ciao <%= current_user.first_name+" "+current_user.last_name %></h1>
+	<a href="#" role="button" onclick="showModal('twitter_modal')"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
+	<% if current_user.check_provider(@application_settings.api_value,"twitter")%>
+		<a href="#" role="button" onclick="showModal('twitter_modal')"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
+	<% end %>
+	<% if current_user.check_provider(@application_settings.api_value,"facebook")%>
+		<a href="#" role="button" onclick="showModal('facebook_modal')"><%=image_tag "facebook_share.png", :class => "share_image"%></a>
+	<% end %>
+</div>
 
 <div class="span15 clearfix" style="margin-bottom:10px;"><h3>Questo è il tuo tag interessi:</h3></div>
 
 <div class="span15 clearfix" style="margin-bottom:30px" id="myCanvasContainer">
- <canvas width="1300" height="300" id="myCanvas">
+ <canvas width="1300" height="200" id="myCanvas">
   <p>Anything in here will be replaced on browsers that support the canvas element</p>
   <ul>
 	<li><a href="#" data-weight="14" style="font-size: 2.83ex">1000</a></li>
@@ -65,22 +171,16 @@
  </canvas>
 </div>
 
+<div id="container2" class="span10 clearfix well" style="width: 1300px; height: 400px; margin-top: 10px;"></div>
+
 <div class="span5 clearfix">
 <% unless current_user.check_provider(@application_settings.api_value,"twitter")%>
 <%=link_to "add twitter activity", "http://api.beancounter.io/rest/user/oauth/token/twitter/#{current_user.username_beancounter}?redirect=http://localhost:3000/users/#{current_user.name}" %>
-<%else%>
-  Share your page on Twitter
-  <textarea></textarea>
-  <%= link_to 'Pubblica su twitter', user_twitter_publish_path, :class => 'btn btn-primary'%>
 <%end%>
 </div>
 
 <div class="span5 clearfix">
 <% unless current_user.check_provider(@application_settings.api_value,"facebook")%>
 <%=link_to "add facebook activity", "http://api.beancounter.io/rest/user/oauth/token/facebook/#{current_user.username_beancounter}?redirect=http://localhost:3000/users/#{current_user.name}" %>
-<%else%>
-  Share your page on Facebook<br />
-  <textarea></textarea>
-  <%= link_to 'Pubblica su facebook', user_facebook_publish_path, :class => 'btn btn-primary'%>
 <%end%>
 </div>
