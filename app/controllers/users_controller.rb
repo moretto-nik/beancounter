@@ -18,20 +18,18 @@ class UsersController < ApplicationController
   end
 
   def facebook_publish
-    @user = User.find(session[:user_id])
-
-    if @user.post_on_facebook_wall
-      redirect_to user_path(@user.name), notice: "La tua pagina è stata pubblicata su facebook"
-    else
-      redirect_to user_path(@user.name), alert: "La tua pagina non è stata pubblicata"
-    end
+    service_publish(facebook, params[:message])
   end
 
   def tweet_publish
-    @user = User.find(session[:user_id])
+    service_publish(twitter, params[:message])
+  end
 
-    if @user.tweet
-      redirect_to user_path(@user.name), notice: "La tua pagina è stata pubblicata su twitter"
+  private
+  def service_publish(service, message)
+    #TODO sistemare il path
+    if current_user.public_page(service, message)
+      redirect_to user_path(@user.name), notice: "La tua pagina � stata pubblicata su #{service}"
     else
       redirect_to user_path(@user.name), alert: "La tua pagina non è stata pubblicata"
     end
