@@ -4,7 +4,7 @@ class SessionsController < ApplicationController
   #sign_in_path
   def new
     if current_user!=nil
-      redirect_to user_path(current_user.name), alert: "Sei già loggato!"
+      redirect_to test_bc_path(:username => current_user.username, :token => current_user.token), alert: "Sei già loggato!"
     end
   end
 
@@ -17,13 +17,13 @@ class SessionsController < ApplicationController
 
   #sign_out_path
   def destroy
-    session[:user_id] = nil
+    session[:user] = nil
     redirect_to sign_in_path, notice: "Sign out!"
   end
 
   def test_bc
-    result = ApplicationSettings.get_user_data(params[:token], params[:username])
-    puts result
-    render :text => result
+    current_user = User.new(:token => params[:token], :username => params[:username])
+    session[:user] = current_user
+    render :text => current_user.get_user_data
   end
 end
