@@ -5,7 +5,7 @@ class UsersController < ApplicationController
   before_filter :require_active_beancounter_api
 
   def show
-  	@application_settings = ApplicationSettings.find_by_api_name("beancounter")
+    @application_settings = ApplicationSettings.find_by_api_name("beancounter")
     @user = User.find(session[:user_id])
     
     if @user.username_beancounter == nil

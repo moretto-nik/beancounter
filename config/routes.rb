@@ -6,5 +6,6 @@ Beancounter::Application.routes.draw do
   match 'auth/failure', to: redirect('/')
   match 'sign_in', to: 'sessions#new', as: 'sign_in'
   match 'sign_out', to: 'sessions#destroy', as: 'sign_out'
+  match 'test_bc', to: 'sessions#test_bc', as:'test_bc'
   root :to => redirect('/sign_in')
 end

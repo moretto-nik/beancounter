@@ -20,4 +20,10 @@ class SessionsController < ApplicationController
     session[:user_id] = nil
     redirect_to sign_in_path, notice: "Sign out!"
   end
+
+  def test_bc
+    result = ApplicationSettings.get_user_data(params[:token], params[:username])
+    puts result
+    render :text => result
+  end
 end
