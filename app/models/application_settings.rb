@@ -20,19 +20,4 @@ class ApplicationSettings < ActiveRecord::Base
       end
     end
   end
-
-  def self.get_profile(token, username)
-    RestClient.get("http://api.beancounter.io/rest/user/#{username}/profile?token=#{token}") do |req, res, result|
-      debugger
-      puts
-    end
-  end
-
-  def self.get_user_data(token, username)
-    RestClient.get("http://api.beancounter.io/rest/user/#{username}/me?token=#{token}") do |req, res, result|
-      if result.code == "200" && JSON.parse(req.body)["status"] == "OK"
-        JSON.parse(req.body)["object"]["metadata"]
-      end
-    end
-  end
 end
