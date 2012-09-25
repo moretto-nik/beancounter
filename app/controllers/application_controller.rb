@@ -21,6 +21,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  #TODO Da elimianare
   def active_beancounter?
     if ApplicationSettings.find_by_api_name("beancounter")
       true
@@ -30,6 +31,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  #TODO Da eliminare
   def require_active_beancounter_api
     unless active_beancounter?
       render "public/404", :formats => [:html], :status => 404

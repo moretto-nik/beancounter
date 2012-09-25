@@ -1,3 +1,4 @@
+#TODO Da eliminare, non serve piu'
 class ApplicationSettings < ActiveRecord::Base
   attr_accessible :api_name, :api_value
 

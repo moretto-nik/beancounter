@@ -1,4 +1,5 @@
 Beancounter::Application.routes.draw do
+  #TODO Da verificare quali rotte sono da eliminare
   match "/users/:name" => "users#show", as:"user"
   match "/users/:name/facebook/publish" => "users#facebook_publish", as:"user_facebook_publish"
   match "/users/:name/twitter/publish" => "users#twitter_publish", as:"user_twitter_publish"
