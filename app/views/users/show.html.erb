@@ -90,7 +90,7 @@ $(function () {
  </script>
 
 <!-- Modal -->
-<div class="modal hide fade" id="twitter_modal" style="height:280px;">
+<div class="modal hide fade" id="twitter_modal" style="height:240px;">
   <div class="modal-header">
     <h3>Share your Beancounter page on Twitter</h3>
   </div>
@@ -103,7 +103,7 @@ $(function () {
   </div>
 </div>
 
-<div class="modal hide fade" id="facebook_modal" style="height:280px;">
+<div class="modal hide fade" id="facebook_modal" style="height:240px;">
   <div class="modal-header">
     <h3>Share your Beancounter page on Facebook</h3>
   </div>
@@ -117,14 +117,19 @@ $(function () {
 </div>
 <!-- end modal -->
 
-<div class="span15 clearfix" style="margin-bottom:30px;"><h1>Ciao <%= current_user.first_name+" "+current_user.last_name %></h1>
-	<a href="#" role="button" onclick="showModal('twitter_modal')"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
-	<% if current_user.check_provider(@application_settings.api_value,"twitter")%>
-		<a href="#" role="button" onclick="showModal('twitter_modal')"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
-	<% end %>
-	<% if current_user.check_provider(@application_settings.api_value,"facebook")%>
-		<a href="#" role="button" onclick="showModal('facebook_modal')"><%=image_tag "facebook_share.png", :class => "share_image"%></a>
-	<% end %>
+<div class="span15 clearfix" style="margin-bottom:30px;"><h1 style="margin-bottom:10px;">Ciao <%= current_user.name %></h1>
+  <% if current_user.twitter?%>
+    <a href="#" role="button" onclick="showModal('twitter_modal')"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
+  <% else %>
+    ^
+    <a href="http://api.beancounter.io/rest/user/oauth/token/twitter/<%=current_user.username%>?redirect=http://localhost:3000/users" role="button"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
+  <% end %>
+  <% if current_user.facebook?%>
+    <a href="#" role="button" onclick="showModal('facebook_modal')"><%=image_tag "facebook_share.png", :class => "share_image"%></a>
+  <% else %>
+    ^
+    <a href="http://api.beancounter.io/rest/user/oauth/token/facebook/<%=current_user.username%>?redirect=http://localhost:3000/users" role="button"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
+  <% end %>
 </div>
 
 <div class="span15 clearfix" style="margin-bottom:10px;"><h3>Questo è il tuo tag interessi:</h3></div>
@@ -172,15 +177,3 @@ $(function () {
 </div>
 
 <div id="container2" class="span10 clearfix well" style="width: 1300px; height: 400px; margin-top: 10px;"></div>
-
-<div class="span5 clearfix">
-<% unless current_user.check_provider(@application_settings.api_value,"twitter")%>
-<%=link_to "add twitter activity", "http://api.beancounter.io/rest/user/oauth/token/twitter/#{current_user.username_beancounter}?redirect=http://localhost:3000/users/#{current_user.name}" %>
-<%end%>
-</div>
-
-<div class="span5 clearfix">
-<% unless current_user.check_provider(@application_settings.api_value,"facebook")%>
-<%=link_to "add facebook activity", "http://api.beancounter.io/rest/user/oauth/token/facebook/#{current_user.username_beancounter}?redirect=http://localhost:3000/users/#{current_user.name}" %>
-<%end%>
-</div>

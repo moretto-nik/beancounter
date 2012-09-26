@@ -4,17 +4,14 @@ class SessionsController < ApplicationController
   #sign_in_path
   def new
     if current_user!=nil
-      #TODO sistemare il path una volta sistemata la show
-      redirect_to test_bc_path(:username => current_user.username, :token => current_user.token), alert: "Sei già loggato!"
+      redirect_to user_path(:username => current_user.username, :token => current_user.token), alert: "Sei già loggato!"
     end
   end
 
-  #/auth/:provider/callback
   def create
-    #TODO Il contenuto della test_bc andra' inserito qui!
-    user = User.from_omniauth(env["omniauth.auth"])
-    session[:user_id] = user.id
-    redirect_to user_path(user.name), notice: "Signed in!"
+    current_user = User.new(:token => params[:token], :username => params[:username])
+    session[:user] = current_user
+    redirect_to user_path(:username => current_user.username, :token => current_user.token), notice: "Signed in!"
   end
 
   #sign_out_path

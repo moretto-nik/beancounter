@@ -5,13 +5,14 @@ class User
   extend ActiveModel::Naming
   include ActiveModel::MassAssignmentSecurity
 
-  attr_accessor :username,:token
-  attr_accessible :username,:token
+  attr_accessor :username,:token, :name, :provider
+  attr_accessible :username,:token, :name, :provider
 
   def initialize(attributes = {})
     attributes.each do |name, value|
       send("#{name}=", value)
     end
+    get_user_data
   end
 
   def persisted?
@@ -28,16 +29,32 @@ class User
   def get_user_data
     RestClient.get("http://api.beancounter.io/rest/user/#{username}/me?token=#{token}") do |req, res, result|
       if result.code == "200" && JSON.parse(req.body)["status"] == "OK"
-        JSON.parse(req.body)["object"]["metadata"]
+        user_information = JSON.parse(req.body)['object']
+        if ["twitter", "facebook"] - user_information['services'].keys == []
+          self.name = "#{user_information['metadata']['facebook.user.firstname']} #{user_information['metadata']['facebook.user.lastname']}"
+          if self.name == " "
+            self.name = "#{user_information['metadata']['twitter.user.name']}"
+          end
+          self.provider = :both
+        elsif user_information['services'].keys == ["facebook"]
+          self.name = "#{user_information['metadata']['facebook.user.firstname']} #{user_information['metadata']['facebook.user.lastname']}"
+          self.provider = :facebook
+        elsif user_information['services'].keys == ["twitter"]
+          self.name = "#{user_information['metadata']['twitter.user.name']}"
+          self.provider = :twitter
+        end
       end
     end
   end
 
-  def check_provider(api_key, provider)
-    #TODO Da verificare non abbiamo api_key
-    RestClient.get("http://api.beancounter.io/rest/user/#{self.username_beancounter}/#{provider}/check?apikey=#{api_key}") do | req, res, result|
-      result.code == "200" && JSON.parse(req.body)["status"] == "OK"
-    end
+  def twitter?
+    #TODO valutare se e' il caso di inserire get user data anche qui per refreshare ogni volta in caso l'utente agganci un account
+    #solo nel caso :both
+    provider == :twitter || provider == :both
+  end
+  
+  def facebook?
+    provider == :facebook || provider == :both
   end
 
   def public_page(service, message)

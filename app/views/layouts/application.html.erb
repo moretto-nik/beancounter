@@ -22,7 +22,7 @@
         <% if current_user==nil %>
           <a style="margin-left:2px;" class="brand" href="/">Beancounter</a>
         <%else%>
-          <a style="margin-left:2px;" class="brand" href="/users/<%=current_user.name%>">Beancounter</a>
+          <a style="margin-left:2px;" class="brand" href="/users?token=<%=current_user.token%>&username=<%=current_user.username%>">Beancounter</a>
         <%end%>
  
         <!-- Everything you want hidden at 940px or less, place within here -->
@@ -31,7 +31,7 @@
 
         <div class="nav-collapse">
             <div class="progress progress-success" style="margin-right:160px;width:200px;float:right;">
-            <div class="bar" style="width: 100%;">API Online 1.2</div>
+            <div class="bar" style="width: 100%;">API Online 1.4</div>
             </div>
             <ul class="nav">
             <% if current_user  %>
