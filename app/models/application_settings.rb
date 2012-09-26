@@ -26,4 +26,18 @@ class ApplicationSettings < ActiveRecord::Base
     end
     ApplicationSettings.first.api_value
   end
+
+  def self.check_status
+    RestClient.get("http://api.beancounter.io/rest/api/check") do |req, res, result|
+      result.code == "200" && JSON.parse(req.body)["status"] == "OK"
+    end
+  end
+
+  def self.version
+    RestClient.get("http://api.beancounter.io/rest/api/version") do |req, res, result|
+      if result.code == "200" && JSON.parse(req.body)["status"] == "OK"
+        JSON.parse(req.body)["object"]
+      end
+    end
+  end
 end

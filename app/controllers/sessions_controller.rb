@@ -23,10 +23,4 @@ class SessionsController < ApplicationController
     session[:user] = nil
     redirect_to sign_in_path, notice: "Sign out!"
   end
-
-  def test_bc
-    current_user = User.new(:token => params[:token], :username => params[:username])
-    session[:user] = current_user
-    render :text => current_user.get_user_data
-  end
 end

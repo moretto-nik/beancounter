@@ -35,5 +35,5 @@ Beancounter::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  REDIRECT_PATH = "http://localhost:3000/"
+  REDIRECT_PATH = "http://localhost:3000"
 end

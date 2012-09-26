@@ -30,8 +30,13 @@
         </div>
 
         <div class="nav-collapse">
+          <% if ApplicationSettings.check_status %>
             <div class="progress progress-success" style="margin-right:160px;width:200px;float:right;">
-            <div class="bar" style="width: 100%;">API Online 1.4</div>
+            <div class="bar" style="width: 100%;">API Online <%=ApplicationSettings.version%></div>
+          <% else %>
+            <div class="progress progress-danger" style="margin-right:160px;width:200px;float:right;">
+            <div class="bar" style="width: 100%;">API Offline</div>
+          <% end %>
             </div>
             <ul class="nav">
             <% if current_user  %>
