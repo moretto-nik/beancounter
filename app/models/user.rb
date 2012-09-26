@@ -31,9 +31,9 @@ class User
       if result.code == "200" && JSON.parse(req.body)["status"] == "OK"
         user_information = JSON.parse(req.body)['object']
         if ["twitter", "facebook"] - user_information['services'].keys == []
-          self.name = "#{user_information['metadata']['facebook.user.firstname']} #{user_information['metadata']['facebook.user.lastname']}"
-          if self.name == " "
-            self.name = "#{user_information['metadata']['twitter.user.name']}"
+          self.name = "#{user_information['metadata']['twitter.user.name']}"
+          if self.name.empty?
+            self.name = "#{user_information['metadata']['facebook.user.firstname']} #{user_information['metadata']['facebook.user.lastname']}"
           end
           self.provider = :both
         elsif user_information['services'].keys == ["facebook"]
