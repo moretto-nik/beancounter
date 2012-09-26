@@ -35,8 +35,5 @@ Beancounter::Application.configure do
   # Expands the lines which load the assets
   config.assets.debug = true
 
-  FACEBOOK_APP_ID = '286412124800243'
-  FACEBOOK_SECRET = '29e6436ac76d90a9a8d467c029d208c7'
-  TWITTER_KEY = 'MMcNsJNeW7ZTWAw48GuA'
-  TWITTER_SECRET = 'DnmxWuxOB9owK47hfCWKzNi0hm1R61J9LQfOTJTd8'
+  REDIRECT_PATH = "http://localhost:3000/"
 end

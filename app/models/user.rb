@@ -5,8 +5,8 @@ class User
   extend ActiveModel::Naming
   include ActiveModel::MassAssignmentSecurity
 
-  attr_accessor :username,:token, :name, :provider
-  attr_accessible :username,:token, :name, :provider
+  attr_accessor :username,:token, :name
+  attr_accessible :username,:token, :name
 
   def initialize(attributes = {})
     attributes.each do |name, value|
@@ -34,13 +34,10 @@ class User
           if self.name.empty?
             self.name = "#{user_information['metadata']['facebook.user.firstname']} #{user_information['metadata']['facebook.user.lastname']}"
           end
-          self.provider = :both
         elsif user_information['services'].keys == ["facebook"]
           self.name = "#{user_information['metadata']['facebook.user.firstname']} #{user_information['metadata']['facebook.user.lastname']}"
-          self.provider = :facebook
         elsif user_information['services'].keys == ["twitter"]
           self.name = "#{user_information['metadata']['twitter.user.name']}"
-          self.provider = :twitter
         end
       else
         false

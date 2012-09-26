@@ -1,3 +1,5 @@
+#TODO Valutare le gemme da buttare via (sono moltissime)
+
 source 'https://rubygems.org'
 
 ruby "1.9.3"
