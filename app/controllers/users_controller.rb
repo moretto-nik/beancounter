@@ -4,9 +4,6 @@ class UsersController < ApplicationController
   before_filter :require_user
 
   def show
-    #TODO Da adattare la show alle nuove politiche
-    
-    #render :text => current_user.get_user_data
   end
 
   def facebook_publish
@@ -19,7 +16,7 @@ class UsersController < ApplicationController
 
   private
   def service_publish(service, message)
-    #TODO sistemare il path
+    #TODO sistemare il path valutare i parametri
     if current_user.public_page(service, message)
       redirect_to user_path(@user.name), notice: "La tua pagina e' stata pubblicata su #{service}"
     else

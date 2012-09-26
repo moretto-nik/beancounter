@@ -12,7 +12,6 @@ class User
     attributes.each do |name, value|
       send("#{name}=", value)
     end
-    get_user_data
   end
 
   def persisted?
@@ -43,20 +42,18 @@ class User
           self.name = "#{user_information['metadata']['twitter.user.name']}"
           self.provider = :twitter
         end
+      else
+        false
       end
     end
   end
 
-  def twitter?
-    #TODO valutare se e' il caso di inserire get user data anche qui per refreshare ogni volta in caso l'utente agganci un account
-    #solo nel caso :both
-    provider == :twitter || provider == :both
+  def provider?(provider)
+    RestClient.get("http://api.beancounter.io/rest/user/100003116792021/#{provider}/check?apikey=#{ApplicationSettings.api_key}") do |req, res, result|
+      result.code == "200" && JSON.parse(req.body)["status"] == "OK"
+    end
   end
   
-  def facebook?
-    provider == :facebook || provider == :both
-  end
-
   def public_page(service, message)
     RestClient.post("http://api.beancounter.io/activities/add/#{username}", {
       :username  => username,

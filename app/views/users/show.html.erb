@@ -99,7 +99,7 @@ $(function () {
   </div>
   <div class="modal-footer">
     <a href="#" class="btn" onclick="hideModal('twitter_modal')">Close</a>
-    <%= link_to 'Pubblica su Twitter', user_twitter_publish_path, :class => 'btn btn-primary'%>
+    <%= link_to 'Pubblica su Twitter', user_twitter_publish_path(:message => ), :class => 'btn btn-primary'%>
   </div>
 </div>
 
@@ -112,23 +112,23 @@ $(function () {
   </div>
   <div class="modal-footer">
     <a href="#" class="btn" onclick="hideModal('facebook_modal')">Close</a>
-    <%= link_to 'Pubblica su Facebook', user_facebook_publish_path, :class => 'btn btn-primary'%>
+    <%= link_to 'Pubblica su Facebook', user_facebook_publish_path(:message => ), :class => 'btn btn-primary'%>
   </div>
 </div>
 <!-- end modal -->
 
 <div class="span15 clearfix" style="margin-bottom:30px;"><h1 style="margin-bottom:10px;">Ciao <%= current_user.name %></h1>
-  <% if current_user.twitter?%>
+  <% if current_user.provider?("twitter")%>
     <a href="#" role="button" onclick="showModal('twitter_modal')"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
   <% else %>
     ^
     <a href="http://api.beancounter.io/rest/user/oauth/token/twitter/<%=current_user.username%>?redirect=http://localhost:3000/users" role="button"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
   <% end %>
-  <% if current_user.facebook?%>
+  <% if current_user.provider?("facebook")%>
     <a href="#" role="button" onclick="showModal('facebook_modal')"><%=image_tag "facebook_share.png", :class => "share_image"%></a>
   <% else %>
     ^
-    <a href="http://api.beancounter.io/rest/user/oauth/token/facebook/<%=current_user.username%>?redirect=http://localhost:3000/users" role="button"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
+    <a href="http://api.beancounter.io/rest/user/oauth/token/facebook/<%=current_user.username%>?redirect=http://localhost:3000/users" role="button"><%=image_tag "facebook_share.png", :class => "share_image"%></a>
   <% end %>
 </div>
 
