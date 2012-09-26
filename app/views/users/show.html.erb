@@ -139,6 +139,9 @@ $(function () {
  <canvas width="1300" height="200" id="myCanvas">
   <p>Anything in here will be replaced on browsers that support the canvas element</p>
   <ul>
+    <%@interests.each do |interest|%>
+      <li><a href="<%=interest["resource"]%>" data-weight="<%=interest["weight"]*100%>" style="font-size: 2.83ex"><%=interest["resource"]%></a></li>
+    <% end %>
 	<li><a href="#" data-weight="14" style="font-size: 2.83ex">1000</a></li>
 	<li><a href="#" data-weight="18" style="font-size: 3.61ex">background</a></li>
 	<li><a href="#" data-weight="40" style="font-size: 9.64ex">canvas</a></li>

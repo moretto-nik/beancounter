@@ -20,8 +20,9 @@ class User
 
   def get_profile
     RestClient.get("http://api.beancounter.io/rest/user/#{username}/profile?token=#{token}") do |req, res, result|
-      debugger
-      puts
+      if result.code == "200" && JSON.parse(req.body)["status"] == "OK"
+        JSON.parse(req.body)['object']['interests']
+      end
     end
   end
 

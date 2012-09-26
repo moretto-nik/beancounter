@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_filter :require_user
 
   def show
+    @interests = current_user.get_profile
   end
 
   def facebook_publish
