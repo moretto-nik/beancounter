@@ -1,66 +1,12 @@
+<%= javascript_include_tag 'bootstrap-popover', 'bootstrap-tooltip' %>
+<style>
+  .popover{
+    top: 457.5px!important;
+  }
+</style>
+
 <script type="text/javascript">
 $(function () {
-    var chart;
-    $(document).ready(function() {
-        chart = new Highcharts.Chart({
-            chart: {
-                renderTo: 'container2',
-                type: 'line',
-                marginRight: 130,
-                marginBottom: 25,
-                plotBackgroundColor: "whiteSmoke"
-            },
-            title: {
-                text: 'Interests Over Time',
-                x: -20 //center
-            },
-            xAxis: {
-                categories: ['2007', '2008', '2009', '2010', '2011', '2012']
-            },
-            yAxis: {
-                title: {
-                    text: '%'
-                },
-                plotLines: [{
-                    value: 0,
-                    width: 1,
-                    color: '#808080'
-                }]
-            },
-            tooltip: {
-                formatter: function() {
-                        return '<b>'+ this.series.name +'</b><br/>'+
-                        this.x +': '+ this.y +'°C';
-                }
-            },
-            legend: {
-                layout: 'vertical',
-                align: 'right',
-                verticalAlign: 'top',
-                x: -10,
-                y: 100,
-                borderWidth: 0,
-                backgroundColor : "whiteSmoke"
-            },
-            series: [{
-                name: 'Comedy',
-                data: [18.2, 40, 25.2, 33.5, 50.1, 55.11]
-            }, {
-                name: 'Movies',
-                data: [ 12.33,22.0, 24.8, 24.1, 20.1, 21.63]
-            }, {
-                name: 'Music',
-                data: [ 13.5, 17.0, 18.6, 9.0, 3.9, 11.94]
-            }, {
-                name: 'Reality TV',
-                data: [3.9, 14.2, 10.3, 6.6,6.6, 7.15]
-            }]
-        });
-    });
-   	$("#highcharts-0").find("rect:nth-child(2)").first().attr("fill","whiteSmoke");
-	  $("#highcharts-2").find("rect:nth-child(2)").first().attr("fill","whiteSmoke"); 
-});
-
   var options = {
     textColour: '#08C',
     textHeight: 40,
@@ -79,6 +25,7 @@ $(function () {
       document.getElementById('myCanvasContainer').style.display = 'none';
     }
   };
+});
 
   function showModal(id){
   	$('#'+id).modal('show');
@@ -87,8 +34,12 @@ $(function () {
   function hideModal(id){
   	$('#'+id).modal('hide');
   }
- </script>
 
+$("a.popclass").live("mouseover", function(){ 
+    $("a.popclass").popover('destroy');
+    $(this).popover('show');
+});
+</script>
 <!-- Modal -->
 <div class="modal hide fade" id="twitter_modal" style="height:240px;">
   <div class="modal-header">
@@ -140,44 +91,31 @@ $(function () {
   <p>Anything in here will be replaced on browsers that support the canvas element</p>
   <ul>
     <%@interests.each do |interest|%>
-      <li><a href="<%=interest["resource"]%>" data-weight="<%=interest["weight"]*100%>" style="font-size: 2.83ex"><%=interest["resource"].split('/').last%></a></li>
+      <li><a href="<%=interest["resource"]%>" data-weight="<%=interest["weight"]*100%>" style="font-size: <%=interest["weight"]*100%>ex"><%= interest["label"] %></a></li>
     <% end %>
-	<li><a href="#" data-weight="14" style="font-size: 2.83ex">1000</a></li>
-	<li><a href="#" data-weight="18" style="font-size: 3.61ex">background</a></li>
-	<li><a href="#" data-weight="40" style="font-size: 9.64ex">canvas</a></li>
-	<li><a href="#" data-weight="22" style="font-size: 4.47ex">chart</a></li>
-	<li><a href="#" data-weight="18" style="font-size: 3.46ex">charts</a></li>
-	<li><a href="#" data-weight="60" style="font-size: 12.32ex">cloud</a></li>
-	<li><a href="#" data-weight="18" style="font-size: 3.74ex">clouds</a></li>
-	<li><a href="#" data-weight="17" style="font-size: 3.16ex">example</a></li>
-	<li><a href="#" data-weight="18" style="font-size: 3.74ex">goat</a></li>
-	<li><a href="#" data-weight="17" style="font-size: 3.16ex">goat1000</a></li>
-	<li><a href="#" data-weight="30" style="font-size: 8.36ex">graph</a></li>
-	<li><a href="#" data-weight="21" style="font-size: 4.36ex">graphs</a></li>
-	<li><a href="#" data-weight="17" style="font-size: 3.32ex">html</a></li>
-	<li><a href="#" data-weight="50" style="font-size: 10.68ex">html5</a></li>
-	<li><a href="#" data-weight="23" style="font-size: 4.69ex">image</a></li>
-	<li><a href="#" data-weight="24" style="font-size: 4.8ex">javascript</a></li>
-	<li><a href="#" data-weight="26" style="font-size: 5.47ex">jpeg</a></li>
-	<li><a href="#" data-weight="13" style="font-size: 2.65ex">jpegsaver</a></li>
-	<li><a href="#" data-weight="32" style="font-size: 8.77ex">jquery</a></li>
-	<li><a href="#" data-weight="13" style="font-size: 2.65ex">lib</a></li>
-	<li><a href="#" data-weight="27" style="font-size: 5.92ex">library</a></li>
-	<li><a href="#" data-weight="17" style="font-size: 3.32ex">link</a></li>
-	<li><a href="#" data-weight="65" style="font-size: 13.23ex">php</a></li>
-	<li><a href="#" data-weight="14" style="font-size: 2.83ex">plugin</a></li>
-	<li><a href="#" data-weight="22" style="font-size: 4.58ex">saver</a></li>
-	<li><a href="#" data-weight="17" style="font-size: 3.32ex">screensaver</a></li>
-	<li><a href="#" data-weight="13" style="font-size: 2.65ex">script</a></li>
-	<li><a href="#" data-weight="65" style="font-size: 13ex">svg</a></li>
-	<li><a href="#" data-weight="21" style="font-size: 4.47ex">svggraph</a></li>
-	<li><a href="#" data-weight="62" style="font-size: 12.44ex">tag</a></li>
-	<li><a href="#" data-weight="13" style="font-size: 2.65ex">tagcanvas</a></li>
-	<li><a href="#" data-weight="17" style="font-size: 3.46ex">tagcloud</a></li>
-	<li><a href="#" data-weight="13" style="font-size: 2.65ex">text</a></li>
-	<li><a href="#" data-weight="17" style="font-size: 10.16ex">word</a></li>
   </ul>
  </canvas>
 </div>
 
-<div id="container2" class="span10 clearfix well" style="width: 1300px; height: 400px; margin-top: 10px;"></div>
+<div id="customers_table" class="span5 clearfix" style="margin-top:20px">
+<table class="table table-striped table-bordered table-condensed">
+  <thead>
+    <tr> 
+      <th>Activity</th>
+      <th>Weight</th>
+    </tr>
+  </thead>
+  
+  <tbody>                                                                                                                                                                                                  
+  <%@interests.each do |interest|%>
+    <tr>
+      <td><%=interest["label"]%></td>
+      <td><%=interest["weight"]*100%></td>
+      <td>
+        <a href="#" class="popclass btn btn-large btn-danger" rel="popover" data-content='<div style="height:780px"></div>' data-original-title="A Title">Click to toggle popover</a>
+      </td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
+</div>
