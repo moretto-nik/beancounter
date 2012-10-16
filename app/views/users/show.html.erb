@@ -1,7 +1,8 @@
 <%= javascript_include_tag 'bootstrap-popover', 'bootstrap-tooltip' %>
 <style>
   .popover{
-    top: 457.5px!important;
+    top: 644.5px!important;
+    width: 50%;
   }
 </style>
 
@@ -9,13 +10,14 @@
 $(function () {
   var options = {
     textColour: '#08C',
-    textHeight: 40,
     depth: 0.99,
     stretchX: 6,
     minSpeed: 0.002,
-    maxSpeed: 0.005,
+    maxSpeed: 0.010,
     initial: [0.6,-0.3],
-    weight: true
+    weight: true,
+    weightMode : "size",
+    weightSize : 1.0
   };
   window.onload = function() {
     try {
@@ -25,20 +27,28 @@ $(function () {
       document.getElementById('myCanvasContainer').style.display = 'none';
     }
   };
-});
 
-  function showModal(id){
-  	$('#'+id).modal('show');
-  }
-
-  function hideModal(id){
-  	$('#'+id).modal('hide');
-  }
-
-$("a.popclass").live("mouseover", function(){ 
+  $("a.popclass").live("mouseover", function(){ 
     $("a.popclass").popover('destroy');
     $(this).popover('show');
+  });
+
+  $('#activityTab a').click(function (e) {
+    e.preventDefault();
+    $("a.popclass").popover('destroy');
+    $(this).tab('show');
+  });
 });
+
+function showModal(id){
+  $('#'+id).modal('show');
+}
+
+function hideModal(id){
+  $('#'+id).modal('hide');
+}
+
+
 </script>
 <!-- Modal -->
 <div class="modal hide fade" id="twitter_modal" style="height:240px;">
@@ -69,53 +79,90 @@ $("a.popclass").live("mouseover", function(){
 </div>
 <!-- end modal -->
 
-<div class="span15 clearfix" style="margin-bottom:30px;"><h1 style="margin-bottom:10px;">Ciao <%= current_user.name %></h1>
+<div class="span15 clearfix" style="margin-bottom:30px;"><h1 style="margin-bottom:10px;">Hi <%= current_user.name %>!!
   <% if current_user.provider?("twitter")%>
     <a href="#" role="button" onclick="showModal('twitter_modal')"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
   <% else %>
-    ^
     <a href="http://api.beancounter.io/rest/user/oauth/token/twitter/<%=current_user.username%>?redirect=<%=REDIRECT_PATH%>/users" role="button"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
   <% end %>
   <% if current_user.provider?("facebook")%>
     <a href="#" role="button" onclick="showModal('facebook_modal')"><%=image_tag "facebook_share.png", :class => "share_image"%></a>
   <% else %>
-    ^
     <a href="http://api.beancounter.io/rest/user/oauth/token/facebook/<%=current_user.username%>?redirect=<%=REDIRECT_PATH%>/users" role="button"><%=image_tag "facebook_share.png", :class => "share_image"%></a>
-  <% end %>
+  <% end %></h1>
 </div>
 
-<div class="span15 clearfix" style="margin-bottom:10px;"><h3>Questo è il tuo tag interessi:</h3></div>
+<div class="span15 clearfix" style="margin-bottom:10px;"><h3>This is your Tag Cloud:</h3></div>
 
 <div class="span15 clearfix" style="margin-bottom:30px" id="myCanvasContainer">
- <canvas width="1300" height="200" id="myCanvas">
+ <canvas width="1300" height="300" id="myCanvas">
   <p>Anything in here will be replaced on browsers that support the canvas element</p>
   <ul>
     <%@interests.each do |interest|%>
-      <li><a href="<%=interest["resource"]%>" data-weight="<%=interest["weight"]*100%>" style="font-size: <%=interest["weight"]*100%>ex"><%= interest["label"] %></a></li>
+      <li><a href="<%=interest["resource"]%>" data-weight="<%=interest["weight"]*1000%>" style="font-size: <%=interest["weight"]*100%>ex"><%= interest["label"] %></a></li>
     <% end %>
   </ul>
  </canvas>
 </div>
 
-<div id="customers_table" class="span5 clearfix" style="margin-top:20px">
-<table class="table table-striped table-bordered table-condensed">
-  <thead>
-    <tr> 
-      <th>Activity</th>
-      <th>Weight</th>
-    </tr>
-  </thead>
-  
-  <tbody>                                                                                                                                                                                                  
-  <%@interests.each do |interest|%>
-    <tr>
-      <td><%=interest["label"]%></td>
-      <td><%=interest["weight"]*100%></td>
-      <td>
-        <a href="#" class="popclass btn btn-large btn-danger" rel="popover" data-content='<div style="height:780px"></div>' data-original-title="A Title">Click to toggle popover</a>
-      </td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+<div class="span10 cleafix">
+<ul class="nav nav-tabs" id="activityTab">
+ <li class="active">
+   <a href="#interests" data-toggle="tab">Interests</a>
+ </li>
+ <li>
+   <a href="#categories" data-toggle="tab">Categories</a>
+ </li>
+</ul>
+
+<div class="tab-content">
+  <div class="tab-pane active" id="interests">
+    <div id="customers_table" class="span5 clearfix">
+      <table class="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr> 
+            <th>Activity</th>
+            <th>Weight</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%@interests.each do |interest|%>
+            <tr>
+              <td><%=interest["label"]%></td>
+              <td><%=interest["weight"]*100%></td>
+              <td>
+                <a href="#" class="popclass btn btn-large btn-danger" rel="popover" data-content='<div class="span5 clearfix"><iframe src="http://api.jquery.com/" width="100%" height="600" id="frameDemo"></iframe><script>$("#frameDemo").contents().find("a").css("background-color","#BADA55");</script></div>' data-original-title="A Title">Click to toggle popover</a>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="tab-pane" id="categories">
+    <div class="span5 clearfix">
+      <table class="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr> 
+            <th>Category</th>
+            <th>Weight</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <%@categories.each do |category|%>
+            <tr>
+              <td><%=category["label"]%></td>
+              <td><%=category["weight"]*100%></td>
+              <td>
+                <a href="#" class="popclass btn btn-large btn-danger" rel="popover" data-content='<div class="span5 clearfix"><iframe src="http://api.jquery.com/" width="100%" height="600" id="frameDemo"></iframe><script>$("#frameDemo").contents().find("a").css("background-color","#BADA55");</script></div>' data-original-title="A Title">Click to toggle popover</a>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
 </div>

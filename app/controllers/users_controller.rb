@@ -4,7 +4,9 @@ class UsersController < ApplicationController
   before_filter :require_user
 
   def show
-    @interests = current_user.get_profile
+    @interests, @categories = current_user.get_profile
+    @interests.sort_by! { |hsh| hsh["weight"] }
+    @categories.sort_by! { |hsh| hsh["weight"] }
   end
 
   def facebook_publish
