@@ -1,36 +1,45 @@
 <%= javascript_include_tag 'bootstrap-popover', 'bootstrap-tooltip' %>
 <style>
   .popover{
-    top: 644.5px!important;
-    width: 50%;
+    width: 59%;
+    margin-left: 26px!important;
+  }
+
+  .insertType {
+    padding-top: 17px;
+    font-family: Rockwell, Georgia, "Times New Roman", Times, serif;
+    color: #0D4383;
+    text-shadow: rgba(0,0,0,0.5) -1px 0, rgba(0,0,0,0.3) 0 -1px, rgba(255,255,255,0.5) 0 1px, rgba(0,0,0,0.3) -1px -2px;
   }
 </style>
 
 <script type="text/javascript">
-$(function () {
-  var options = {
-    textColour: '#08C',
-    depth: 0.99,
-    stretchX: 6,
-    minSpeed: 0.002,
-    maxSpeed: 0.010,
-    initial: [0.6,-0.3],
-    weight: true,
-    weightMode : "size",
-    weightSize : 1.0
-  };
   window.onload = function() {
     try {
-      TagCanvas.Start('myCanvas', '', options);
+      TagCanvas.Start('myCanvas','',{
+        textColour: '#08C',
+        depth: 0.99,
+        stretchX: 6,
+        minSpeed: 0.002,
+        maxSpeed: 0.010,
+        initial: [0.6,-0.3],
+        weight: true,
+      });
     } catch(e) {
       // something went wrong, hide the canvas container
       document.getElementById('myCanvasContainer').style.display = 'none';
     }
   };
+</script>
 
+<script type="text/javascript">
+$(function () {
   $("a.popclass").live("mouseover", function(){ 
     $("a.popclass").popover('destroy');
     $(this).popover('show');
+    i = $(this).parent().parent().attr("id");
+    $(".popover").css("top",$(".tab-content").position().top);
+    $(".arrow").css("top", ((i*6)+1)+"%");
   });
 
   $('#activityTab a').click(function (e) {
@@ -47,7 +56,6 @@ function showModal(id){
 function hideModal(id){
   $('#'+id).modal('hide');
 }
-
 
 </script>
 <!-- Modal -->
@@ -79,30 +87,30 @@ function hideModal(id){
 </div>
 <!-- end modal -->
 
-<div class="span15 clearfix" style="margin-bottom:30px;"><h1 style="margin-bottom:10px;">Hi <%= current_user.name %>!!
-  <% if current_user.provider?("twitter")%>
+<div class="span15 clearfix" style="margin-bottom:30px;"><h1 class="insertType" style="margin-bottom:10px; font-size:40px;">Hi <%= current_user.name %>!
+  <% if current_user.provider?(:twitter)%>
     <a href="#" role="button" onclick="showModal('twitter_modal')"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
   <% else %>
     <a href="http://api.beancounter.io/rest/user/oauth/token/twitter/<%=current_user.username%>?redirect=<%=REDIRECT_PATH%>/users" role="button"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
   <% end %>
-  <% if current_user.provider?("facebook")%>
+  <% if current_user.provider?(:facebook)%>
     <a href="#" role="button" onclick="showModal('facebook_modal')"><%=image_tag "facebook_share.png", :class => "share_image"%></a>
   <% else %>
     <a href="http://api.beancounter.io/rest/user/oauth/token/facebook/<%=current_user.username%>?redirect=<%=REDIRECT_PATH%>/users" role="button"><%=image_tag "facebook_share.png", :class => "share_image"%></a>
   <% end %></h1>
 </div>
 
-<div class="span15 clearfix" style="margin-bottom:10px;"><h3>This is your Tag Cloud:</h3></div>
+<div class="span15 clearfix" style="margin-bottom:10px;"><h3 class="insertType" style="font-size:30px;">your interests, at a glance...</h3></div>
 
 <div class="span15 clearfix" style="margin-bottom:30px" id="myCanvasContainer">
- <canvas width="1300" height="300" id="myCanvas">
-  <p>Anything in here will be replaced on browsers that support the canvas element</p>
-  <ul>
-    <%@interests.each do |interest|%>
-      <li><a href="<%=interest["resource"]%>" data-weight="<%=interest["weight"]*1000%>" style="font-size: <%=interest["weight"]*100%>ex"><%= interest["label"] %></a></li>
-    <% end %>
-  </ul>
- </canvas>
+  <canvas width="1300" height="300" id="myCanvas">
+    <p>Anything in here will be replaced on browsers that support the canvas element</p>
+    <ul>
+      <%@interests.each do |interest|%>
+        <li><a href="<%=interest['resource']%>" targer="_blank" style="font-size:<%=(interest['weight'].to_f)*100%>ex;"><%= interest["label"] %></a></li>
+      <% end %>
+    </ul>
+  </canvas>
 </div>
 
 <div class="span10 cleafix">
@@ -127,17 +135,22 @@ function hideModal(id){
         </thead>
 
         <tbody>
-          <%@interests.each do |interest|%>
-            <tr>
+          <%@interests.reverse.each_with_index do |interest, i|%>
+            <tr id="<%=i+1%>">
               <td><%=interest["label"]%></td>
               <td><%=interest["weight"]*100%></td>
               <td>
-                <a href="#" class="popclass btn btn-primary" rel="popover" data-content='
-                  <div class="span5 clearfix">
+                <a href="#" class="popclass btn btn-primary" rel="popover" 
+                  data-content='
+                  <div class="span8 clearfix">
                     <iframe src="http://api.jquery.com/" width="100%" height="600" id="frameDemo"></iframe>
                     <script>
                       $("#frameDemo").contents().find("a").css("background-color","#BADA55");
-                    </script></div>' data-original-title="<%=interest["label"]%>">Mouse Over</a>
+                    </script>
+                  </div>' 
+                  data-original-title="<%=interest['label']%><button style='float:right;' type='button' class='btn btn-inverse'>Black List</button>">
+                  Detail
+                </a>
               </td>
             </tr>
           <% end %>
@@ -156,8 +169,8 @@ function hideModal(id){
         </thead>
 
         <tbody>
-          <%@categories.each do |category|%>
-            <tr>
+          <%@categories.reverse.each_with_index do |category, i|%>
+            <tr id="<%=i+1%>">
               <td><%=category["label"]%></td>
               <td><%=category["weight"]*100%></td>
               <td>
@@ -166,7 +179,11 @@ function hideModal(id){
                     <iframe src="http://api.jquery.com/" width="100%" height="600" id="frameDemo"></iframe>
                     <script>
                       $("#frameDemo").contents().find("a").css("background-color","#BADA55");
-                    </script></div>' data-original-title="<%=category["label"]%>">Mouse Over</a>
+                    </script>
+                  </div>'
+                  data-original-title="<%=category['label']%><button style='float:right;' type='button' class='btn btn-inverse'>Black List</button>">
+                  Detail
+                </a>
               </td>
             </tr>
           <% end %>

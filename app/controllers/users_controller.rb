@@ -4,6 +4,7 @@ class UsersController < ApplicationController
   before_filter :require_user
 
   def show
+    current_user = User.new(:username => params[:username], :token => params[:token])
     @interests, @categories = current_user.get_profile
     @interests.sort_by! { |hsh| hsh["weight"] }
     @categories.sort_by! { |hsh| hsh["weight"] }
