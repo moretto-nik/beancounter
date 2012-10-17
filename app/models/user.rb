@@ -49,7 +49,7 @@ class User
   end
 
   def provider?(provider)
-    RestClient.get("http://api.beancounter.io/rest/user/100003116792021/#{provider}/check?apikey=#{ApplicationSettings.api_key}") do |req, res, result|
+    RestClient.get("http://api.beancounter.io/rest/user/#{username}/#{provider}/check?apikey=#{ApplicationSettings.api_key}") do |req, res, result|
       result.code == "200" && JSON.parse(req.body)["status"] == "OK"
     end
   end
