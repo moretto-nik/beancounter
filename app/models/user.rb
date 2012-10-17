@@ -20,8 +20,8 @@ class User
 
   def get_profile
     #http://api.beancounter.io/rest/user/14656799/profile?token=4fb43eeb-d4df-45f8-919c-5d7d97a5106e
-    #RestClient.get("http://api.beancounter.io/rest/user/#{username}/profile?token=#{token}") do |req, res, result|
-    RestClient.get("http://api.beancounter.io/rest/user/14656799/profile?token=4fb43eeb-d4df-45f8-919c-5d7d97a5106e") do |req, res, result|
+    RestClient.get("http://api.beancounter.io/rest/user/#{username}/profile?token=#{token}") do |req, res, result|
+    #RestClient.get("http://api.beancounter.io/rest/user/14656799/profile?token=4fb43eeb-d4df-45f8-919c-5d7d97a5106e") do |req, res, result|
       if result.code == "200" && JSON.parse(req.body)["status"] == "OK"
         return JSON.parse(req.body)['object']['interests'], JSON.parse(req.body)['object']['categories']
       end
