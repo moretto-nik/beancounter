@@ -22,9 +22,9 @@ class UsersController < ApplicationController
   def service_publish(service, message)
     #TODO sistemare il path valutare i parametri
     if current_user.public_page(service, message)
-      redirect_to user_path(@user.name), notice: "La tua pagina e' stata pubblicata su #{service}"
+      redirect_to user_path(:token => current_user.token, :username => current_user.username), notice: "La tua pagina e' stata pubblicata su #{service}"
     else
-      redirect_to user_path(@user.name), alert: "La tua pagina non e' stata pubblicata"
+      redirect_to user_path(), alert: "La tua pagina non e' stata pubblicata"
     end
   end
 end

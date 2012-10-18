@@ -107,7 +107,14 @@ function hideModal(id){
     <p>Anything in here will be replaced on browsers that support the canvas element</p>
     <ul>
       <%@interests.each do |interest|%>
-        <li><a href="<%=interest['resource']%>" targer="_blank" style="font-size:<%=(interest['weight'].to_f)*100%>ex;"><%= interest["label"] %></a></li>
+        <%if interest["weight"]*100 < 10
+          weight = 10
+        elsif interest["weight"]*100 > 20
+          weight = 20
+        else
+          weight = interest["weight"]*100
+        end%>
+        <li><a href="<%=interest['resource']%>" targer="_blank" style="font-size:<%=weight%>ex;"><%= interest["label"] %></a></li>
       <% end %>
     </ul>
   </canvas>

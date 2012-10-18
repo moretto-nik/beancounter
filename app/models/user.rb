@@ -60,27 +60,6 @@ class User
   end
   
   def public_page(service, message)
-    RestClient.post("http://api.beancounter.io/activities/add/#{username}", {
-      :username  => username,
-      :activity  => "{
-          \"object\":
-          {
-                \"type\" :        \"the type of the activity\",
-                \"name\" :        \"the name of the activity\",
-                \"description\" : \"a simple description of the activity\",
-                \"url\" :         \"the url for the activity\"
-          },
-          \"context\":
-          {
-                \"date\" :    \"#{Date.today}\",
-                \"service\" : \"#{service}\",
-                \"mood\" :    \"the mood of the user\"
-          },
-          \"verb\" : \"the kind of activity\"
-      }",
-      :token     => token,
-    }) do |req, res, result|
-      #TODO
-    end
+    true
   end
 end
