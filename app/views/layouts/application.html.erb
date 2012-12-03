@@ -43,8 +43,8 @@
               <li style="margin-top:10px;"> Signed in as <%= current_user.name %> </li>
               <li><%= link_to "Sign out", sign_out_path, id: "sign_out" %></li>
             <% else %>
-              <li><%= link_to "Sign in with facebook", "http://api.beancounter.io/rest/user/register/facebook/web?redirect=#{REDIRECT_PATH}/auth" %></li>
-              <li><%= link_to "Sign in with twitter", "http://api.beancounter.io/rest/user/register/twitter/web?redirect=#{REDIRECT_PATH}/auth" %></li>
+              <li><%= link_to "Sign in with facebook", "http://194.116.82.81:8080/beancounter-platform/rest/user/register/facebook/web?redirect=#{REDIRECT_PATH}/auth" %></li>
+              <li><%= link_to "Sign in with twitter", "http://194.116.82.81:8080/beancounter-platform/rest/user/register/twitter/web?redirect=#{REDIRECT_PATH}/auth" %></li>
             <% end %>
           </ul>
           </ul>

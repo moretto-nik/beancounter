@@ -20,7 +20,7 @@ class User
 
   def get_profile
     #RestClient.get("http://api.beancounter.io/rest/user/14656799/profile?token=4fb43eeb-d4df-45f8-919c-5d7d97a5106e") do |req, res, result|
-    RestClient.get("http://api.beancounter.io/rest/user/#{username}/profile?token=#{token}") do |req, res, result|
+    RestClient.get("http://194.116.82.81:8080/beancounter-platform/rest/user/#{username}/profile?token=#{token}") do |req, res, result|
       if result.code == "200" && JSON.parse(req.body)["status"] == "OK"
         return JSON.parse(req.body)['object']['interests'], JSON.parse(req.body)['object']['categories']
       end
@@ -28,7 +28,7 @@ class User
   end
 
   def get_user_data
-    RestClient.get("http://api.beancounter.io/rest/user/#{username}/me?token=#{token}") do |req, res, result|
+    RestClient.get("http://194.116.82.81:8080/beancounter-platform/rest/user/#{username}/me?token=#{token}") do |req, res, result|
       if result.code == "200" && JSON.parse(req.body)["status"] == "OK"
         user_information = JSON.parse(req.body)['object']
         if ["twitter", "facebook"] - user_information['services'].keys == []
@@ -58,7 +58,7 @@ class User
       return false
     end
   end
-  
+
   def public_page(service, message)
     true
   end
