@@ -9,6 +9,7 @@ gem 'rails', '3.2.6'
 # gem 'rails', :git => 'git://github.com/rails/rails.git'
 
 gem 'rest-client', :git => 'git://github.com/archiloque/rest-client.git'
+gem 'sqlite3'
 
 # Gems used only for assets and not required
 # in production environments by default.
@@ -36,17 +37,14 @@ group :test do
   gem 'fakeweb'
 end
 
-group :development do
-  gem 'sqlite3'
-end
-
 gem 'omniauth-twitter'
 gem 'twitter'
 
 gem 'omniauth-facebook'
 gem 'koala'
 
-group :production do
-  gem 'heroku'
-  gem 'pg'
+group :development do
+  gem 'capistrano'
+  gem 'capistrano-ext'
+  gem 'rvm-capistrano'
 end
