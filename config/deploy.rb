@@ -6,7 +6,7 @@ set :deploy_to, "/var/www/#{application}"
 
 set :scm, :git 
 set :scm_user, "moretto-nik"
-set :repository, "git@github.com:xpeppers/uhopper.git"
+set :repository, "git@github.com:moretto-nik/beancounter.git"
 set :branch, "master"
 
 set :user, 'beancounter'
