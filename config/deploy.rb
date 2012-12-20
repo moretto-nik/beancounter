@@ -27,7 +27,6 @@ role :db, "uhopper.profilerix.demo", :primary => true        # This is where Rai
 # If you are using Passenger mod_rails uncomment this:
 set :keep_releases, 5
 after "deploy:update", "deploy:cleanup"
-after 'deploy:update_code', 'deploy:migrate'
 namespace :deploy do
   task :start do ; end
   task :stop do ; end
