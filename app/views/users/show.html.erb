@@ -58,21 +58,6 @@ function hideModal(id){
 }
 
 </script>
-<!-- Modal -->
-<div class="modal hide fade" id="twitter_modal" style="height:240px;">
-  <div class="modal-header">
-    <h3>Share your Beancounter page on Twitter</h3>
-  </div>
-  <div class="modal-body">
-    <textarea style="width:510px; height:100px;"></textarea>
-  </div>
-  <div class="modal-footer">
-    <a href="#" class="btn" onclick="hideModal('twitter_modal')">Close</a>
-    <%#TODO Da sistemare il messaggio%>
-    <%= link_to 'Pubblica su Twitter', user_twitter_publish_path(:message => ""), :class => 'btn btn-primary'%>
-  </div>
-</div>
-
 <div class="modal hide fade" id="facebook_modal" style="height:240px;">
   <div class="modal-header">
     <h3>Share your Beancounter page on Facebook</h3>
@@ -89,7 +74,7 @@ function hideModal(id){
 
 <div class="span15 clearfix" style="margin-bottom:30px;"><h1 class="insertType" style="margin-bottom:10px; font-size:40px;">Hi <%= current_user.name %>!
   <% if current_user.provider?(:twitter)%>
-    <a href="#" role="button" onclick="showModal('twitter_modal')"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
+    <a style="margin-left: 82;" href="https://twitter.com/intent/tweet?text=Sto%20analizzando%20il%20mio%20profilo%20su%20http://profilerix.com"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
   <% else %>
     <a href="http://194.116.82.81:8080/beancounter-platform/rest/user/oauth/token/twitter/<%=current_user.username%>?redirect=<%=REDIRECT_PATH%>/users" role="button"><%=image_tag "twitter_share.png", :class => "share_image"%></a>
   <% end %>
@@ -132,7 +117,8 @@ function hideModal(id){
 
 <div class="tab-content">
   <div class="tab-pane active" id="interests">
-    <div id="customers_table" class="span5 clearfix">
+    <!--<div id="customers_table" class="span5 clearfix">-->
+    <div id="customers_table" class="span15 clearfix">
       <% if !@interests.empty? %>
         <table class="table table-striped table-bordered table-condensed">
           <thead>
@@ -147,7 +133,7 @@ function hideModal(id){
               <tr id="<%=i+1%>">
                 <td><%=interest["label"]%></td>
                 <td><%=interest["weight"]*100%></td>
-                <td>
+                <!--<td>
                   <a href="#" class="popclass btn btn-primary" rel="popover" 
                     data-content='
                     <div class="span8 clearfix">
@@ -156,10 +142,10 @@ function hideModal(id){
                         $("#frameDemo").contents().find("a").css("background-color","#BADA55");
                       </script>
                     </div>' 
-                    data-original-title="<%=interest['label']%><button style='float:right;' type='button' class='btn btn-inverse'>Black List</button>">
+                    data-original-title="<%#=interest['label']%><button style='float:right;' type='button' class='btn btn-inverse'>Black List</button>">
                     Detail
                   </a>
-                </td>
+                </td>-->
               </tr>
             <% end %>
           </tbody>
@@ -170,7 +156,8 @@ function hideModal(id){
     </div>
   </div>
   <div class="tab-pane" id="categories">
-    <div class="span5 clearfix">
+    <!--<div class="span5 clearfix">-->
+    <div class="span15 clearfix">
       <% if !@categories.empty? %>
         <table class="table table-striped table-bordered table-condensed">
           <thead>
@@ -185,7 +172,7 @@ function hideModal(id){
               <tr id="<%=i+1%>">
                 <td><%=category["label"]%></td>
                 <td><%=category["weight"]*100%></td>
-                <td>
+                <!--<td>
                   <a href="#" class="popclass btn btn-primary" rel="popover" data-content='
                     <div class="span5 clearfix">
                       <iframe src="http://api.jquery.com/" width="100%" height="600" id="frameDemo"></iframe>
@@ -193,10 +180,10 @@ function hideModal(id){
                         $("#frameDemo").contents().find("a").css("background-color","#BADA55");
                       </script>
                     </div>'
-                    data-original-title="<%=category['label']%><button style='float:right;' type='button' class='btn btn-inverse'>Black List</button>">
+                    data-original-title="<%#=category['label']%><button style='float:right;' type='button' class='btn btn-inverse'>Black List</button>">
                     Detail
                   </a>
-                </td>
+                </td>-->
               </tr>
             <% end %>
           </tbody>
